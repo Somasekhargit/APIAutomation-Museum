@@ -16,13 +16,18 @@
           bat "mvn -Dmaven.test.failure.ignore=true clean package"
         }
      }
+      stage('Run Regression Tests') {
+        steps {
+          bat "mvn clean verify  -P regressiontests"
+        }
+     }
       stage('Publish HTML report') {
         steps {
            publishHTML([
                allowMissing: false, 
                alwaysLinkToLastBuild: false, 
                keepAll: true, 
-               reportDir: 'target/karate-reports', 
+               reportDir: 'regressiontests/target/karate-reports', 
                reportFiles: 'karate-summary.html', 
                reportName: 'Regression Test Exectuion Report', 
                reportTitles: '', 
